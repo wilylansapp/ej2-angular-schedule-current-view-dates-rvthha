@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { zooEventsData } from './data';
+import { linesRessources, zooEventsData } from './data';
 import { extend } from '@syncfusion/ej2-base';
 import {
   EventSettingsModel,
@@ -77,12 +77,10 @@ export const views: ViewsModel[] = [
   ],
 })
 export class AppComponent implements OnInit {
-  ngOnInit(): void {
-    this.calendarHeight = this.getDispoHeight();
-  }
   @ViewChild('schedule', { static: false })
   calendarObject: ScheduleComponent;
-  public selectedDate: Date = new Date();
+
+  public selectedDate: Date = new Date('2022/09/1');
   public linesRessources: any[] = [];
   public group: GroupModel = {
     resources: ['lines'],
@@ -92,11 +90,15 @@ export class AppComponent implements OnInit {
   public calendarName: string = null;
   public calendarHeight: number = null;
   public eventSettings: EventSettingsModel = {
-    dataSource: [],
+    dataSource: [...zooEventsData],
     ignoreWhitespace: true,
   };
-  private currentDate: Date;
-
+  ngOnInit(): void {
+    this.calendarHeight = this.getDispoHeight();
+    this.linesRessources = linesRessources;
+    this.eventSettings.dataSource = zooEventsData;
+    this.calendarObject.refresh();
+  }
   public onNavigating(event: NavigatingEventArgs): void {
     this.updateHeaderRows(event.currentView, event.viewIndex);
   }

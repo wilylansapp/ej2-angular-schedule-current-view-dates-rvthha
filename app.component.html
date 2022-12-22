@@ -1,5 +1,4 @@
 <div class="control-section">
-  <button (click)="onButtonClick($event)">Get current view dates</button>
   <ejs-schedule
     #schedule
     id="calendar-perso"
@@ -15,6 +14,7 @@
     [firstDayOfWeek]="1"
     [(currentView)]="currentView"
     (navigating)="onNavigating($event)"
+    cssClass="timeline-resource-grouping virtual-scrolling"
   >
     <e-resources>
       <e-resource
