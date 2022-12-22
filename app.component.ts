@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { zooEventsData } from './data';
 import { extend } from '@syncfusion/ej2-base';
 import {
@@ -67,11 +67,19 @@ export const views: ViewsModel[] = [
   providers: [
     TimelineViewsService,
     TimelineMonthService,
+    DayService,
+    WeekService,
+    WorkWeekService,
+    MonthService,
+    AgendaService,
     ResizeService,
     DragAndDropService,
   ],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  ngOnInit(): void {
+    this.calendarHeight = this.getDispoHeight();
+  }
   @ViewChild('schedule', { static: false })
   calendarObject: ScheduleComponent;
   public selectedDate: Date = new Date();
@@ -122,5 +130,12 @@ export class AppComponent {
         }
         break;
     }
+  }
+  private getDispoHeight(): number {
+    const clientHeight = window.innerHeight;
+    const scheduleBorder = 1;
+    const headerHeight = 70;
+    const scheduleHeight = clientHeight - headerHeight - scheduleBorder;
+    return scheduleHeight;
   }
 }
