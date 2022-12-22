@@ -1,0 +1,33 @@
+<div class="control-section">
+  <button (click)="onButtonClick($event)">Get current view dates</button>
+  <ejs-schedule
+    #schedule
+    id="calendar-perso"
+    class="acronyme"
+    width="100%"
+    [height]="calendarHeight"
+    locale="fr-CH"
+    [views]="views"
+    [selectedDate]="selectedDate"
+    [eventSettings]="eventSettings"
+    [group]="group"
+    [rowAutoHeight]="true"
+    [firstDayOfWeek]="1"
+    [(currentView)]="currentView"
+    (navigating)="onNavigating($event)"
+  >
+    <e-resources>
+      <e-resource
+        field="lineId"
+        title="Line"
+        name="lines"
+        [dataSource]="linesRessources"
+        textField="text"
+        idField="id"
+        colorField="color"
+        [allowMultiple]="false"
+      >
+      </e-resource>
+    </e-resources>
+  </ejs-schedule>
+</div>
