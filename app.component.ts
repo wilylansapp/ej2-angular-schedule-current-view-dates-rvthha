@@ -2,20 +2,13 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { linesRessources, zooEventsData } from './data';
 import { extend } from '@syncfusion/ej2-base';
 import {
-  EventSettingsModel,
-  DayService,
-  WeekService,
-  WorkWeekService,
-  MonthService,
-  AgendaService,
-  ResizeService,
-  DragAndDropService,
-  ViewsModel,
-  GroupModel,
-  View,
   ScheduleComponent,
   TimelineViewsService,
   TimelineMonthService,
+  GroupModel,
+  ViewsModel,
+  View,
+  EventSettingsModel,
   NavigatingEventArgs,
 } from '@syncfusion/ej2-angular-schedule';
 export const ressourcesList: any[] = [
@@ -64,26 +57,13 @@ export const views: ViewsModel[] = [
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  providers: [
-    TimelineViewsService,
-    TimelineMonthService,
-    DayService,
-    WeekService,
-    WorkWeekService,
-    MonthService,
-    AgendaService,
-    ResizeService,
-    DragAndDropService,
-  ],
+  providers: [TimelineViewsService, TimelineMonthService],
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  ngAfterViewInit(): void {
-    console.log(this.calendarObject);
-  }
   @ViewChild('schedule', { static: false })
   calendarObject: ScheduleComponent;
-
+  public data: Object[] = <Object[]>extend([], zooEventsData, null, true);
   public selectedDate: Date = new Date('2022/09/1');
   public linesRessources: any[] = linesRessources;
   public group: GroupModel = {
@@ -94,54 +74,25 @@ export class AppComponent implements OnInit, AfterViewInit {
   public calendarName: string = null;
   public calendarHeight: number = null;
   public eventSettings: EventSettingsModel = {
-    dataSource: [...zooEventsData],
+    dataSource: this.data,
     ignoreWhitespace: true,
   };
   ngOnInit(): void {
     this.calendarHeight = this.getDispoHeight();
-    this.linesRessources = linesRessources;
-    this.eventSettings.dataSource = zooEventsData;
+  }
+  ngAfterViewInit(): void {
     console.log(this.calendarObject);
   }
-  public onNavigating(event: NavigatingEventArgs): void {
-    this.updateHeaderRows(event.currentView, event.viewIndex);
-  }
-  private updateHeaderRows(currentView: string, viewIndex: number): void {
-    switch (currentView) {
-      case 'TimelineDay':
-        this.calendarObject.headerRows = [
-          { option: 'Date' },
-          { option: 'Hour' },
-        ];
-        break;
-
-      case 'TimelineWeek':
-        this.calendarObject.headerRows = [
-          { option: 'Week' },
-          { option: 'Date' },
-        ];
-        break;
-
-      case 'TimelineMonth':
-        if (viewIndex === 5) {
-          this.calendarObject.headerRows = [
-            { option: 'Year' },
-            { option: 'Month' },
-          ];
-        } else {
-          this.calendarObject.headerRows = [
-            { option: 'Month' },
-            { option: 'Week' },
-          ];
-        }
-        break;
-    }
-  }
+  public onNavigating(event: NavigatingEventArgs): void {}
   private getDispoHeight(): number {
     const clientHeight = window.innerHeight;
     const scheduleBorder = 1;
     const headerHeight = 70;
     const scheduleHeight = clientHeight - headerHeight - scheduleBorder;
     return scheduleHeight;
+  }
+
+  onDataBound() {
+    console.log(this.calendarObject.getCurrentViewDates());
   }
 }

@@ -14,7 +14,7 @@
     [firstDayOfWeek]="1"
     [(currentView)]="currentView"
     (navigating)="onNavigating($event)"
-    cssClass="timeline-resource-grouping virtual-scrolling"
+    (dataBound)="onDataBound()"
   >
     <e-resources>
       <e-resource
