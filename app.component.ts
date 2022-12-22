@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { linesRessources, zooEventsData } from './data';
 import { extend } from '@syncfusion/ej2-base';
 import {
@@ -75,13 +75,17 @@ export const views: ViewsModel[] = [
     ResizeService,
     DragAndDropService,
   ],
+  styleUrls: ['app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
+  ngAfterViewInit(): void {
+    console.log(this.calendarObject);
+  }
   @ViewChild('schedule', { static: false })
   calendarObject: ScheduleComponent;
 
   public selectedDate: Date = new Date('2022/09/1');
-  public linesRessources: any[] = [];
+  public linesRessources: any[] = linesRessources;
   public group: GroupModel = {
     resources: ['lines'],
   };
@@ -97,7 +101,7 @@ export class AppComponent implements OnInit {
     this.calendarHeight = this.getDispoHeight();
     this.linesRessources = linesRessources;
     this.eventSettings.dataSource = zooEventsData;
-    this.calendarObject.refresh();
+    console.log(this.calendarObject);
   }
   public onNavigating(event: NavigatingEventArgs): void {
     this.updateHeaderRows(event.currentView, event.viewIndex);

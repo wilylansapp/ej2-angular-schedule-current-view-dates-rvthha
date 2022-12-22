@@ -1,0 +1,13 @@
+table[class='e-schedule-table e-resource-column-table e-auto-height']
+  tr:first-child,
+table[class='e-schedule-table e-content-table e-auto-height']
+  tbody
+  tr:first-child {
+  > td {
+    border-bottom: 0px;
+    height: 1px;
+    > div {
+      display: none !important;
+    }
+  }
+}
